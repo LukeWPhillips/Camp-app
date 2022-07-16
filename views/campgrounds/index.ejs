@@ -1,0 +1,67 @@
+<!-- boilerplate is the common layout throughout all pages  -->
+<!-- pass thropugh to layoput folder boilerplate file -->
+
+
+
+
+<link rel="stylesheet" href="/stylesheets/index.css">
+
+
+<% layout('layout/boilerplate')%>
+    <div id="cluster-map"></div>
+
+    <h1 class="masterhead">Find your campground</h1>
+    
+    <% for (let campground of campgrounds){%>
+        <div class="card mb-3">
+            <div class="row">
+                <div class="col-md-4 mb-0">
+                    <% if (campground.images.length) {%>
+                        <img class="img-fluid" alt="" src="<%= campground.images[0].url %>">
+                        <% }else{ %>
+                            <img class="img-fluid"
+                                src="https://res.cloudinary.com/ddb09rtfy/image/upload/v1644623210/yelpcamp/vwxgxlzyoy46motramhh.jpg"
+                                alt="">
+                            <% } %>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <%= campground.title %>
+                        </h5>
+
+                        <p class="card-text">
+                            <%= campground.description %>
+                        </p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                <%= campground.location%>
+                            </small>
+                        </p>
+                        <a class="btn btn-success" href="/campgrounds/<%=campground._id%>">View <%=campground.title%>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }%>
+
+            <script>
+                const mapToken = '<%-process.env.MAPBOX_TOKEN%>';
+                const campgrounds = { features: <%- JSON.stringify(campgrounds) %>}
+            </script>
+
+            <script src="javascripts/clusterMap.js"></script>
+
+
+            <!-- There are mainly five class in grid system which are listed below:
+
+// .col- Extra Small ( < 576 px )
+// .col-sm- Small ( >= 576 px )
+// .col-md- Medium ( >= 768 px )
+// .col-lg- Large ( >= 992 px )
+// .col-xl- Extra Large ( >= 1200 px )
+
+// Bootstrap provides 12 columns per row which is made available in the 
+// Column class. So, you can control the width of column using specifying numbers
+//  in .col-*, where * means the width of the column in numbers. -->
